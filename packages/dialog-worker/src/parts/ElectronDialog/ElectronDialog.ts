@@ -1,5 +1,5 @@
 import * as Assert from '@lvce-editor/assert'
-import { SharedProcess } from '@lvce-editor/rpc-registry'
+import { MainProcess } from '@lvce-editor/rpc-registry'
 import type { ElectronMessageBoxOptions } from '../ElectronMessageBoxOptions/ElectronMessageBoxOptions.ts'
 import * as GetWindowId from '../GetWindowId/GetWindowId.ts'
 import * as Product from '../Product/Product.ts'
@@ -13,5 +13,5 @@ export const showMessageBox = async (options: ElectronMessageBoxOptions): Promis
     productName,
     windowId,
   }
-  return SharedProcess.invoke('ElectronDialog.showMessageBox', finalOptions)
+  return MainProcess.invoke('ElectronDialog.showMessageBox', finalOptions)
 }
