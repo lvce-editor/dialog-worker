@@ -1,6 +1,7 @@
 import { expect, test } from '@jest/globals'
 import * as CommandMap from '../src/parts/CommandMap/CommandMap.ts'
 import * as GetKeyBindings from '../src/parts/GetKeyBindings/GetKeyBindings.ts'
+import * as RegisterDialogViewCommands from '../src/parts/RegisterDialogViewCommands/RegisterDialogViewCommands.ts'
 import * as RenderEventListeners from '../src/parts/RenderEventListeners/RenderEventListeners.ts'
 
 test('exposes dialog commands', () => {
@@ -19,6 +20,11 @@ test('exposes dialog commands', () => {
     'Dialog.show',
     'Dialog.showWarning',
   ])
+})
+
+test('registers dialog view commands', () => {
+  RegisterDialogViewCommands.registerDialogViewCommands()
+  expect(CommandMap.commandMap['Dialog.getCommandIds']()).toEqual(['handleClickButton', 'handleClickClose', 'handleFocusIn'])
 })
 
 test('provides escape key binding', () => {
