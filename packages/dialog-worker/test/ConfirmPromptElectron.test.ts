@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { RendererWorker, SharedProcess } from '@lvce-editor/rpc-registry'
+import { MainProcess, RendererWorker } from '@lvce-editor/rpc-registry'
 import * as ConfirmPromptElectron from '../src/parts/ConfirmPromptElectron/ConfirmPromptElectron.ts'
 
 const registerMessageBoxResult = (result: number): void => {
@@ -8,7 +8,7 @@ const registerMessageBoxResult = (result: number): void => {
       return 1
     },
   })
-  SharedProcess.registerMockRpc({
+  MainProcess.registerMockRpc({
     'ElectronDialog.showMessageBox'(): number {
       return result
     },

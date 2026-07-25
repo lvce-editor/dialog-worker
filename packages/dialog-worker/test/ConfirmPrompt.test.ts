@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals'
 import { RpcId } from '@lvce-editor/constants'
-import { registerMockRpc, RendererWorker, SharedProcess } from '@lvce-editor/rpc-registry'
+import { MainProcess, registerMockRpc, RendererWorker } from '@lvce-editor/rpc-registry'
 import * as ConfirmPrompt from '../src/parts/ConfirmPrompt/ConfirmPrompt.ts'
 import * as PlatformType from '../src/parts/PlatformType/PlatformType.ts'
 
@@ -19,7 +19,7 @@ const registerElectronPrompt = (result: number, calls: unknown[]): void => {
       return 12
     },
   })
-  SharedProcess.registerMockRpc({
+  MainProcess.registerMockRpc({
     'ElectronDialog.showMessageBox'(options: unknown): number {
       calls.push(options)
       return result

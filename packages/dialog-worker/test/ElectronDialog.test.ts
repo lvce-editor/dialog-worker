@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { RendererWorker, SharedProcess } from '@lvce-editor/rpc-registry'
+import { MainProcess, RendererWorker } from '@lvce-editor/rpc-registry'
 import * as ElectronDialog from '../src/parts/ElectronDialog/ElectronDialog.ts'
 
 test('showMessageBox', async () => {
@@ -9,7 +9,7 @@ test('showMessageBox', async () => {
       return 12
     },
   })
-  SharedProcess.registerMockRpc({
+  MainProcess.registerMockRpc({
     'ElectronDialog.showMessageBox'(options: unknown): number {
       calls.push({ method: 'ElectronDialog.showMessageBox', options })
       return 1
