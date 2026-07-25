@@ -1,3 +1,3 @@
-# about-view
+# dialog-worker
 
-About View.
+Dialog worker for web and Electron confirmation prompts.

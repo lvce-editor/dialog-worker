@@ -6,22 +6,11 @@
     },
     "packages/build": {
       "project": ["src/**/*.js", "src/**/*.ts"],
-      "ignoreDependencies": ["@lvce-editor/verror", "esbuild"]
+      "ignoreDependencies": ["esbuild"]
     },
-    "packages/e2e": {
-      "entry": ["src/**/*.ts"],
-      "project": ["src/**/*.ts"]
-    },
-    "packages/memory": {
-      "project": ["src/**/*.ts"],
-      "ignoreDependencies": ["playwright"]
-    },
-    "packages/about-view": {
+    "packages/dialog-worker": {
       "entry": ["test/**/*.test.ts"],
       "project": ["src/**/*.ts", "test/**/*.ts"]
-    },
-    "packages/server": {
-      "project": ["src/**/*.js"]
     }
   }
 }

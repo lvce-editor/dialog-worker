@@ -6,13 +6,13 @@ import { rollup, type RollupOptions } from 'rollup'
 import { root } from './root.ts'
 
 const options: RollupOptions = {
-  input: join(root, 'packages/about-view/src/aboutWorkerMain.ts'),
+  input: join(root, 'packages/dialog-worker/src/dialogWorkerMain.ts'),
   preserveEntrySignatures: 'strict',
   treeshake: {
     propertyReadSideEffects: false,
   },
   output: {
-    file: join(root, '.tmp/dist/dist/aboutWorkerMain.js'),
+    file: join(root, '.tmp/dist/dist/dialogWorkerMain.js'),
     format: 'es',
     freeze: false,
     generatedCode: {

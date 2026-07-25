@@ -3,19 +3,10 @@
   "include": [],
   "references": [
     {
-      "path": "./packages/about-view"
+      "path": "./packages/dialog-worker"
     },
     {
       "path": "./packages/build"
-    },
-    {
-      "path": "./packages/server"
-    },
-    {
-      "path": "./packages/e2e"
-    },
-    {
-      "path": "./packages/memory"
     }
   ]
 }
