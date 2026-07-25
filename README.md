@@ -1,2 +1,3 @@
-# dialog-worker
-Dialog Worker
+# about-view
+
+About View.
