@@ -14,6 +14,12 @@ import * as RenderEventListeners from '../RenderEventListeners/RenderEventListen
 import * as ShowDialog from '../ShowDialog/ShowDialog.ts'
 import * as ShowWarning from '../ShowWarning/ShowWarning.ts'
 
+export const dialogViewCommandMap = {
+  'Dialog.handleClickButton': DialogStates.wrapCommand(HandleClickButton.handleClickButton),
+  'Dialog.handleClickClose': DialogStates.wrapCommand(HandleClickClose.handleClickClose),
+  'Dialog.handleFocusIn': DialogStates.wrapAsyncCommand(HandleFocusIn.handleFocusIn),
+}
+
 export const commandMap = {
   'ConfirmPrompt.prompt': ConfirmPrompt.prompt,
   'ConfirmPrompt.showErrorMessage': ConfirmPrompt.showErrorMessage,
@@ -22,9 +28,7 @@ export const commandMap = {
   'Dialog.dispose': Dispose.dispose,
   'Dialog.getCommandIds': DialogStates.getCommandIds,
   'Dialog.getKeyBindings': GetKeyBindings.getKeyBindings,
-  'Dialog.handleClickButton': DialogStates.wrapCommand(HandleClickButton.handleClickButton),
-  'Dialog.handleClickClose': DialogStates.wrapCommand(HandleClickClose.handleClickClose),
-  'Dialog.handleFocusIn': DialogStates.wrapAsyncCommand(HandleFocusIn.handleFocusIn),
+  ...dialogViewCommandMap,
   'Dialog.loadContent2': DialogStates.wrapAsyncCommand(LoadContent2.loadContent2),
   'Dialog.render2': Render2.render2,
   'Dialog.renderEventListeners': RenderEventListeners.renderEventListeners,
