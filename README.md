@@ -1,2 +1,3 @@
 # dialog-worker
-Dialog Worker
+
+Dialog worker for web and Electron confirmation prompts.

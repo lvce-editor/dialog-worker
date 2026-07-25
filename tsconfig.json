@@ -1,0 +1,12 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./packages/dialog-worker"
+    },
+    {
+      "path": "./packages/build"
+    }
+  ]
+}
