@@ -52,7 +52,6 @@
     "@lvce-editor/i18n": "^2.5.0",
     "@lvce-editor/rpc": "^6.10.0",
     "@lvce-editor/rpc-registry": "^9.39.0",
-    "@lvce-editor/viewlet-registry": "^5.5.0",
     "jest": "^30.4.2",
     "ts-jest": "^29.4.12"
   }

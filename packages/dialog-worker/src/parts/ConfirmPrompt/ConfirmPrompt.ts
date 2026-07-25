@@ -1,18 +1,18 @@
 import type { ConfirmPromptOptions } from '../ConfirmPromptOptions/ConfirmPromptOptions.ts'
+import type { ShowErrorMessageOptions } from '../ShowErrorMessageOptions/ShowErrorMessageOptions.ts'
 import * as ConfirmPromptElectron from '../ConfirmPromptElectron/ConfirmPromptElectron.ts'
 import * as ConfirmPromptStrings from '../ConfirmPromptStrings/ConfirmPromptStrings.ts'
 import * as ConfirmPromptWeb from '../ConfirmPromptWeb/ConfirmPromptWeb.ts'
 import * as Platform from '../Platform/Platform.ts'
 import * as PlatformType from '../PlatformType/PlatformType.ts'
-import type { ShowErrorMessageOptions } from '../ShowErrorMessageOptions/ShowErrorMessageOptions.ts'
 
 export const prompt = async (
   message: string,
   {
-    platform = Platform.getPlatform(),
-    confirmMessage = ConfirmPromptStrings.ok(),
-    title = '',
     cancelMessage = ConfirmPromptStrings.cancel(),
+    confirmMessage = ConfirmPromptStrings.ok(),
+    platform = Platform.getPlatform(),
+    title = '',
   }: ConfirmPromptOptions = {},
 ): Promise<boolean> => {
   if (platform === PlatformType.Electron) {
@@ -22,9 +22,9 @@ export const prompt = async (
 }
 
 export const showErrorMessage = async ({
+  confirmMessage = ConfirmPromptStrings.ok(),
   message,
   platform = Platform.getPlatform(),
-  confirmMessage = ConfirmPromptStrings.ok(),
   title = '',
 }: ShowErrorMessageOptions): Promise<boolean> => {
   if (platform === PlatformType.Electron) {

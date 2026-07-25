@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import * as PlatformType from '../PlatformType/PlatformType.ts'
 
 declare const PLATFORM: number | undefined
@@ -11,6 +12,7 @@ interface GlobalWithProcess {
 }
 
 export const getPlatform = (): number => {
+  // eslint-disable-next-line unicorn/no-typeof-undefined
   if (typeof PLATFORM !== 'undefined') {
     return PLATFORM
   }
