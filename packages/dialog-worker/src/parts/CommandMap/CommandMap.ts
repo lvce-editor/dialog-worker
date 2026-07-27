@@ -8,6 +8,7 @@ import * as GetKeyBindings from '../GetKeyBindings/GetKeyBindings.ts'
 import * as HandleClickButton from '../HandleClickButton/HandleClickButton.ts'
 import * as HandleClickClose from '../HandleClickClose/HandleClickClose.ts'
 import * as HandleFocusIn from '../HandleFocusIn/HandleFocusIn.ts'
+import * as HandleMessagePort from '../HandleMessagePort/HandleMessagePort.ts'
 import * as LoadContent2 from '../LoadContent2/LoadContent2.ts'
 import * as Render2 from '../Render2/Render2.ts'
 import * as RenderEventListeners from '../RenderEventListeners/RenderEventListeners.ts'
@@ -35,4 +36,5 @@ export const commandMap = {
   'Dialog.show': ShowDialog.showDialog,
   'Dialog.showWarning': ShowWarning.showWarning,
   'ElectronDialog.showMessageBox': ElectronDialog.showMessageBox,
+  'HandleMessagePort.handleMessagePort': HandleMessagePort.handleMessagePort,
 }
