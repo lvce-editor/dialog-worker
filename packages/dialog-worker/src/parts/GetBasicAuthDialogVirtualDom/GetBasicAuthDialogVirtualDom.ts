@@ -4,22 +4,40 @@ import type { DialogState } from '../DialogState/DialogState.ts'
 import * as AriaBoolean from '../AriaBoolean/AriaBoolean.ts'
 import * as AriaRoles from '../AriaRoles/AriaRoles.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
-import * as DialogKind from '../DialogKind/DialogKind.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
-import * as GetBasicAuthDialogVirtualDom from '../GetBasicAuthDialogVirtualDom/GetBasicAuthDialogVirtualDom.ts'
-import * as GetDialogIconVirtualDom from '../GetDialogIconVirtualDom/GetDialogIconVirtualDom.ts'
 import * as Ids from '../Ids/Ids.ts'
 import * as InputName from '../InputName/InputName.ts'
-import * as JoinBySpace from '../JoinBySpace/JoinBySpace.ts'
 import * as MergeClassNames from '../MergeClassNames/MergeClassNames.ts'
 import * as TabIndex from '../TabIndex/TabIndex.ts'
 import { text } from '../VirtualDomHelpers/VirtualDomHelpers.ts'
 
-export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode[] => {
-  if (state.kind === DialogKind.BasicAuth) {
-    return GetBasicAuthDialogVirtualDom.getBasicAuthDialogVirtualDom(state)
-  }
-  const { closeMessage, confirmMessage, message, title, type } = state
+const getField = (label: string, name: string, value: string, inputType: string, autocomplete: string): readonly VirtualDomNode[] => {
+  return [
+    {
+      childCount: 2,
+      className: ClassNames.BasicAuthDialogField,
+      type: VirtualDomElements.Label,
+    },
+    {
+      childCount: 0,
+      text: label,
+      type: VirtualDomElements.Text,
+    },
+    {
+      autocomplete,
+      childCount: 0,
+      className: ClassNames.InputBox,
+      inputType,
+      name,
+      onInput: DomEventListenerFunctions.HandleInput,
+      type: VirtualDomElements.Input,
+      value,
+    },
+  ]
+}
+
+export const getBasicAuthDialogVirtualDom = (state: DialogState): readonly VirtualDomNode[] => {
+  const { closeMessage, confirmMessage, message, password, title, username } = state
   return [
     {
       childCount: 1,
@@ -28,9 +46,9 @@ export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode
       type: VirtualDomElements.Div,
     },
     {
-      ariaLabelledBy: JoinBySpace.joinBySpace(Ids.DialogIcon, Ids.DialogHeading),
+      ariaLabelledBy: Ids.DialogHeading,
       ariaModal: AriaBoolean.True,
-      childCount: 3,
+      childCount: 2,
       className: ClassNames.DialogContent,
       onFocusIn: DomEventListenerFunctions.HandleFocusIn,
       role: AriaRoles.Dialog,
@@ -55,15 +73,10 @@ export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode
       type: VirtualDomElements.Div,
     },
     {
-      childCount: 2,
-      className: ClassNames.DialogMessageRow,
-      type: VirtualDomElements.Div,
-    },
-    GetDialogIconVirtualDom.getDialogIconVirtualDom(type),
-    {
-      childCount: 2,
-      className: ClassNames.DialogContentRight,
-      type: VirtualDomElements.Div,
+      childCount: 5,
+      className: ClassNames.BasicAuthDialogForm,
+      onSubmit: DomEventListenerFunctions.HandleSubmit,
+      type: VirtualDomElements.Form,
     },
     {
       childCount: 1,
@@ -74,10 +87,12 @@ export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode
     text(title),
     {
       childCount: 1,
-      className: ClassNames.DialogMessage,
+      className: ClassNames.BasicAuthDialogDescription,
       type: VirtualDomElements.Div,
     },
     text(message),
+    ...getField('Username', InputName.Username, username, 'text', 'username'),
+    ...getField('Password', InputName.Password, password, 'password', 'current-password'),
     {
       childCount: 1,
       className: ClassNames.DialogButtonsRow,
@@ -86,8 +101,8 @@ export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode
     {
       childCount: 1,
       className: MergeClassNames.mergeClassNames(ClassNames.Button, ClassNames.ButtonPrimary),
+      inputType: 'submit',
       name: InputName.Confirm,
-      onClick: DomEventListenerFunctions.HandleClickButton,
       type: VirtualDomElements.Button,
     },
     text(confirmMessage),

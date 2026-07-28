@@ -5,5 +5,8 @@ export const getFocusSelector = (focusId: number): string => {
   if (focusId === DialogFocusId.Confirm) {
     return InputName.Confirm
   }
+  if (focusId === DialogFocusId.Username) {
+    return InputName.Username
+  }
   return ''
 }

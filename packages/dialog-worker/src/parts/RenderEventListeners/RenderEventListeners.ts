@@ -17,6 +17,15 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
       params: ['handleFocusIn'],
     },
     {
+      name: DomEventListenerFunctions.HandleInput,
+      params: ['handleInput', EventExpression.TargetName, EventExpression.TargetValue],
+    },
+    {
+      name: DomEventListenerFunctions.HandleSubmit,
+      params: ['handleSubmit'],
+      preventDefault: true,
+    },
+    {
       name: DomEventListenerFunctions.HandleContextMenu,
       params: [],
       preventDefault: true,

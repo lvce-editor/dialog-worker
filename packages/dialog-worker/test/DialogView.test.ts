@@ -6,6 +6,7 @@ import * as DialogStates from '../src/parts/DialogStates/DialogStates.ts'
 import * as Diff2 from '../src/parts/Diff2/Diff2.ts'
 import * as Dispose from '../src/parts/Dispose/Dispose.ts'
 import * as GetDialogIconVirtualDom from '../src/parts/GetDialogIconVirtualDom/GetDialogIconVirtualDom.ts'
+import * as GetDialogVirtualDom from '../src/parts/GetDialogVirtualDom/GetDialogVirtualDom.ts'
 import * as GetFocusSelector from '../src/parts/GetFocusSelector/GetFocusSelector.ts'
 import * as LoadContent2 from '../src/parts/LoadContent2/LoadContent2.ts'
 import * as Render2 from '../src/parts/Render2/Render2.ts'
@@ -28,10 +29,14 @@ test('creates, loads, diffs, and renders a warning dialog', async () => {
     closeMessage: 'Cancel',
     confirmMessage: 'Ok',
     focusId: 1,
+    kind: 'message',
     message: "Your browser doesn't support opening local folders.",
+    password: '',
+    requestId: '',
     title: 'Opening Local Folders is Unsupported',
     type: 'warning',
     uid,
+    username: '',
   })
 
   const diffResult = Diff2.diff2(uid)
@@ -174,15 +179,23 @@ test('returns an empty focus selector for an unknown focus id', () => {
   expect(GetFocusSelector.getFocusSelector(0)).toBe('')
 })
 
+test('returns the username focus selector', () => {
+  expect(GetFocusSelector.getFocusSelector(2)).toBe('Username')
+})
+
 test('rejects an unknown render type', () => {
   const state: DialogState = {
     closeMessage: 'Cancel',
     confirmMessage: 'Ok',
     focusId: 1,
+    kind: 'message',
     message: 'Message',
+    password: '',
+    requestId: '',
     title: 'Title',
     type: 'info',
     uid: 1,
+    username: '',
   }
   expect(() => ApplyRender.applyRender(state, state, [999])).toThrow(new Error('unknown renderer'))
 })
@@ -191,4 +204,46 @@ test('disposes dialog state', () => {
   Create.create(44)
   Dispose.dispose(44)
   expect(DialogStates.get(44)).toBeUndefined()
+})
+
+test('renders a basic auth dialog with username and password fields', async () => {
+  const uid = 45
+  Create.create(uid)
+  const loadContent = DialogStates.wrapAsyncCommand(LoadContent2.loadContent2)
+  await loadContent(uid, {
+    closeMessage: 'Cancel',
+    confirmMessage: 'Sign In',
+    kind: 'basic-auth',
+    message: 'example.com is requesting your username and password. Realm: Private Area',
+    requestId: '12:1',
+    title: 'Authentication Required',
+  })
+  const state = DialogStates.get(uid).newState
+
+  expect(state).toMatchObject({
+    focusId: 2,
+    kind: 'basic-auth',
+    requestId: '12:1',
+  })
+  const dom = GetDialogVirtualDom.getDialogVirtualDom(state)
+  expect(dom).toContainEqual(
+    expect.objectContaining({
+      inputType: 'text',
+      name: 'Username',
+      onInput: 5,
+    }),
+  )
+  expect(dom).toContainEqual(
+    expect.objectContaining({
+      inputType: 'password',
+      name: 'Password',
+      onInput: 5,
+    }),
+  )
+  expect(dom).toContainEqual(
+    expect.objectContaining({
+      inputType: 'submit',
+      name: 'Confirm',
+    }),
+  )
 })
