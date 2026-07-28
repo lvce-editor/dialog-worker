@@ -66,3 +66,32 @@ test('show basic auth opens a dedicated credentials dialog', async () => {
     ],
   ])
 })
+
+test('show basic auth omits the default HTTP port', async () => {
+  using mockRendererWorkerRpc = RendererWorker.registerMockRpc({
+    'Viewlet.openWidget'(): void {},
+  })
+  await BasicAuthPrompt.show({
+    host: 'example.com',
+    isProxy: false,
+    port: 80,
+    realm: '',
+    requestId: '12:3',
+    scheme: 'basic',
+    url: ['http:', '//example.com/private'].join(''),
+  })
+  expect(mockRendererWorkerRpc.invocations).toEqual([
+    [
+      'Viewlet.openWidget',
+      'Dialog',
+      {
+        closeMessage: 'Cancel',
+        confirmMessage: 'Sign In',
+        kind: 'basic-auth',
+        message: 'example.com is requesting your username and password.',
+        requestId: '12:3',
+        title: 'Authentication Required',
+      },
+    ],
+  ])
+})
