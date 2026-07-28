@@ -6,10 +6,14 @@ export const create = (uid: number): void => {
     closeMessage: '',
     confirmMessage: '',
     focusId: 0,
+    kind: 'message',
     message: '',
+    password: '',
+    requestId: '',
     title: '',
     type: 'info',
     uid,
+    username: '',
   }
   DialogStates.set(uid, state, state)
 }

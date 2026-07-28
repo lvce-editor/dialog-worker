@@ -1,7 +1,6 @@
 import type { DialogState } from '../DialogState/DialogState.ts'
-import * as Close from '../Close/Close.ts'
+import * as HandleSubmit from '../HandleSubmit/HandleSubmit.ts'
 
 export const handleClickButton = async (state: DialogState): Promise<DialogState> => {
-  await Close.close()
-  return state
+  return HandleSubmit.handleSubmit(state)
 }
