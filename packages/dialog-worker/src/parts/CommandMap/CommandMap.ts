@@ -12,6 +12,7 @@ import * as HandleClickClose from '../HandleClickClose/HandleClickClose.ts'
 import * as HandleFocusIn from '../HandleFocusIn/HandleFocusIn.ts'
 import * as HandleInput from '../HandleInput/HandleInput.ts'
 import * as HandleMessagePort from '../HandleMessagePort/HandleMessagePort.ts'
+import { handleRendererProcessMessagePort } from '../HandleRendererProcessMessagePort/HandleRendererProcessMessagePort.ts'
 import * as HandleSubmit from '../HandleSubmit/HandleSubmit.ts'
 import * as LoadContent2 from '../LoadContent2/LoadContent2.ts'
 import * as Render2 from '../Render2/Render2.ts'
@@ -41,6 +42,7 @@ export const commandMap = {
   'Dialog.getCommandIds': DialogStates.getCommandIds,
   'Dialog.getKeyBindings': GetKeyBindings.getKeyBindings,
   ...dialogViewCommandMap,
+  'Dialog.handleMessagePort': handleRendererProcessMessagePort,
   'Dialog.loadContent2': DialogStates.wrapAsyncCommand(LoadContent2.loadContent2),
   'Dialog.render2': Render2.render2,
   'Dialog.renderEventListeners': RenderEventListeners.renderEventListeners,
