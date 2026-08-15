@@ -17,6 +17,7 @@ test('exposes dialog commands', () => {
     'Dialog.handleFocusIn',
     'Dialog.handleInput',
     'Dialog.handleSubmit',
+    'Dialog.handleMessagePort',
     'Dialog.loadContent2',
     'Dialog.render2',
     'Dialog.renderEventListeners',

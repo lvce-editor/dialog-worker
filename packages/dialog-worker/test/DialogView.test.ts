@@ -1,4 +1,5 @@
-import { beforeEach, expect, test } from '@jest/globals'
+import { beforeEach, expect, jest, test } from '@jest/globals'
+import { createMockRpc } from '@lvce-editor/rpc'
 import type { DialogState } from '../src/parts/DialogState/DialogState.ts'
 import * as ApplyRender from '../src/parts/ApplyRender/ApplyRender.ts'
 import * as Create from '../src/parts/Create/Create.ts'
@@ -10,6 +11,7 @@ import * as GetDialogVirtualDom from '../src/parts/GetDialogVirtualDom/GetDialog
 import * as GetFocusSelector from '../src/parts/GetFocusSelector/GetFocusSelector.ts'
 import * as LoadContent2 from '../src/parts/LoadContent2/LoadContent2.ts'
 import * as Render2 from '../src/parts/Render2/Render2.ts'
+import * as RendererProcess from '../src/parts/RendererProcess/RendererProcess.ts'
 
 beforeEach(() => {
   DialogStates.clear()
@@ -204,6 +206,27 @@ test('disposes dialog state', () => {
   Create.create(44)
   Dispose.dispose(44)
   expect(DialogStates.get(44)).toBeUndefined()
+})
+
+test('queues renderer commands directly and retains focus context commands', async () => {
+  const uid = 46
+  Create.create(uid)
+  const loadContent = DialogStates.wrapAsyncCommand(LoadContent2.loadContent2)
+  await loadContent(uid, {
+    message: 'Direct rendering',
+    title: 'Direct rendering',
+    type: 'info',
+  })
+  const queueCommands = jest.fn((_uid: number, _commands: readonly unknown[]) => 17)
+  RendererProcess.set(createMockRpc({ commandMap: { 'Viewlet.queueCommands': queueCommands } }))
+
+  const result = await Render2.render2(uid, Diff2.diff2(uid))
+
+  expect(queueCommands).toHaveBeenCalledWith(uid, [expect.arrayContaining(['Viewlet.setDom2']), ['Viewlet.focusSelector', '[name="Confirm"]']])
+  expect(result).toEqual([
+    ['Viewlet.setFocusContext', 7],
+    ['Viewlet.commitPending', uid, 17],
+  ])
 })
 
 test('renders a basic auth dialog with username and password fields', async () => {
