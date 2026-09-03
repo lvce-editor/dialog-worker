@@ -65,6 +65,44 @@ test('prompt - electron', async () => {
   ])
 })
 
+test('prompt2 - defaults to web behavior', async () => {
+  const calls: string[] = []
+  registerWebPrompt(false, calls)
+  await expect(
+    ConfirmPrompt.prompt2({
+      confirmMessage: 'Yes',
+      text: 'Continue?',
+      title: 'Question',
+    }),
+  ).resolves.toBe(false)
+  expect(calls).toEqual(['Continue?'])
+})
+
+test('prompt2 - electron', async () => {
+  const calls: unknown[] = []
+  registerElectronPrompt(1, calls)
+  await expect(
+    ConfirmPrompt.prompt2({
+      cancelMessage: 'No',
+      confirmMessage: 'Yes',
+      platform: PlatformType.Electron,
+      text: 'Continue?',
+      title: 'Question',
+    }),
+  ).resolves.toBe(true)
+  expect(calls).toEqual([
+    {
+      buttons: ['No', 'Yes'],
+      defaultId: 1,
+      message: 'Continue?',
+      productName: 'Lvce Editor - OSS',
+      title: 'Question',
+      type: 'question',
+      windowId: 12,
+    },
+  ])
+})
+
 test('showErrorMessage - defaults to web behavior', async () => {
   const calls: string[] = []
   registerWebPrompt(true, calls)

@@ -1,4 +1,5 @@
 import type { ConfirmPromptOptions } from '../ConfirmPromptOptions/ConfirmPromptOptions.ts'
+import type { ConfirmPromptOptions2 } from '../ConfirmPromptOptions2/ConfirmPromptOptions2.ts'
 import type { ShowErrorMessageOptions } from '../ShowErrorMessageOptions/ShowErrorMessageOptions.ts'
 import * as ConfirmPromptElectron from '../ConfirmPromptElectron/ConfirmPromptElectron.ts'
 import * as ConfirmPromptStrings from '../ConfirmPromptStrings/ConfirmPromptStrings.ts'
@@ -19,6 +20,10 @@ export const prompt = async (
     return ConfirmPromptElectron.prompt(message, confirmMessage, title, cancelMessage)
   }
   return ConfirmPromptWeb.prompt(message)
+}
+
+export const prompt2 = async ({ cancelMessage, confirmMessage, platform, text, title }: ConfirmPromptOptions2): Promise<boolean> => {
+  return prompt(text, { cancelMessage, confirmMessage, platform, title })
 }
 
 export const showErrorMessage = async ({
