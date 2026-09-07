@@ -5,6 +5,9 @@ export const diffType = DiffType.RenderDialog
 
 export const isEqual = (oldState: DialogState, newState: DialogState): boolean => {
   return (
+    oldState.errorCode === newState.errorCode &&
+    oldState.actionLabel === newState.actionLabel &&
+    oldState.actionCommand === newState.actionCommand &&
     oldState.closeMessage === newState.closeMessage &&
     oldState.confirmMessage === newState.confirmMessage &&
     oldState.kind === newState.kind &&

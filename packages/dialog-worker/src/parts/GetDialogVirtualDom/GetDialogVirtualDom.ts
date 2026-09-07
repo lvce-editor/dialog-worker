@@ -19,7 +19,8 @@ export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode
   if (state.kind === DialogKind.BasicAuth) {
     return GetBasicAuthDialogVirtualDom.getBasicAuthDialogVirtualDom(state)
   }
-  const { closeMessage, confirmMessage, message, title, type } = state
+  const { actionCommand, actionLabel, closeMessage, confirmMessage, errorCode, message, title, type } = state
+  const hasAction = !!(actionLabel && actionCommand)
   return [
     {
       childCount: 1,
@@ -61,7 +62,7 @@ export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode
     },
     GetDialogIconVirtualDom.getDialogIconVirtualDom(type),
     {
-      childCount: 2,
+      childCount: errorCode ? 3 : 2,
       className: ClassNames.DialogContentRight,
       type: VirtualDomElements.Div,
     },
@@ -72,6 +73,15 @@ export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode
       type: VirtualDomElements.Div,
     },
     text(title),
+    ...(errorCode
+      ? [
+          { type: VirtualDomElements.Div, className: ClassNames.DialogErrorCode, childCount: 2 },
+          { type: VirtualDomElements.Div, className: ClassNames.DialogErrorCodeLabel, childCount: 1 },
+          text('Error code'),
+          { type: VirtualDomElements.Div, childCount: 1 },
+          text(errorCode),
+        ]
+      : []),
     {
       childCount: 1,
       className: ClassNames.DialogMessage,
@@ -79,7 +89,7 @@ export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode
     },
     text(message),
     {
-      childCount: 1,
+      childCount: hasAction ? 2 : 1,
       className: ClassNames.DialogButtonsRow,
       type: VirtualDomElements.Div,
     },
@@ -91,5 +101,17 @@ export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode
       type: VirtualDomElements.Button,
     },
     text(confirmMessage),
+    ...(hasAction
+      ? [
+          {
+            type: VirtualDomElements.Button,
+            className: MergeClassNames.mergeClassNames(ClassNames.Button, ClassNames.ButtonPrimary),
+            childCount: 1,
+            name: InputName.Action,
+            onClick: DomEventListenerFunctions.HandleClickButton,
+          },
+          text(actionLabel),
+        ]
+      : []),
   ]
 }
