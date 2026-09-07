@@ -108,10 +108,10 @@ test('close button cancels basic auth after closing the dialog', async () => {
 
 test('closes the dialog before invoking the explicit secondary action', async () => {
   using rpc = RendererWorker.registerMockRpc({
-    'Viewlet.closeWidget'(): void {},
     'ExtensionHost.executeCommand'(): void {},
+    'Viewlet.closeWidget'(): void {},
   })
-  const actionState = { ...state, actionLabel: 'Install Docker', actionCommand: 'devcontainer.installDocker' }
+  const actionState = { ...state, actionCommand: 'devcontainer.installDocker', actionLabel: 'Install Docker' }
   await HandleClickButton.handleClickButton(actionState, 'Action')
   expect(rpc.invocations).toEqual([
     ['Viewlet.closeWidget', 'Dialog'],
@@ -130,7 +130,7 @@ test.each([{}, { actionLabel: 'Install Docker' }, { actionCommand: 'devcontainer
 
 test('confirm and close never run the installation action', async () => {
   using rpc = RendererWorker.registerMockRpc({ 'Viewlet.closeWidget'(): void {} })
-  const actionState = { ...state, actionLabel: 'Install Docker', actionCommand: 'devcontainer.installDocker' }
+  const actionState = { ...state, actionCommand: 'devcontainer.installDocker', actionLabel: 'Install Docker' }
   await HandleClickButton.handleClickButton(actionState, 'Confirm')
   await HandleClickClose.handleClickClose(actionState)
   expect(rpc.invocations).toEqual([

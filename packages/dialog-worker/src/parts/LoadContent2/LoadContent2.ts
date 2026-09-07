@@ -8,11 +8,11 @@ import * as DialogStrings from '../DialogStrings/DialogStrings.ts'
 export const loadContent2 = async (context: AsyncCommandContext<DialogState>, options: DialogOptions): Promise<void> => {
   await context.updateState((state) => ({
     ...state,
-    errorCode: options.errorCode,
-    actionLabel: options.actionLabel,
     actionCommand: options.actionCommand,
+    actionLabel: options.actionLabel,
     closeMessage: options.closeMessage ?? DialogStrings.cancel(),
     confirmMessage: options.confirmMessage ?? DialogStrings.ok(),
+    errorCode: options.errorCode,
     focusId: options.kind === DialogKind.BasicAuth ? DialogFocusId.Username : DialogFocusId.Confirm,
     kind: options.kind ?? DialogKind.Message,
     message: options.message,

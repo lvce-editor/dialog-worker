@@ -2,11 +2,11 @@ import type { DialogKind } from '../DialogKind/DialogKind.ts'
 import type { DialogType } from '../DialogType/DialogType.ts'
 
 export interface DialogState {
-  readonly errorCode?: string
-  readonly actionLabel?: string
   readonly actionCommand?: string
+  readonly actionLabel?: string
   readonly closeMessage: string
   readonly confirmMessage: string
+  readonly errorCode?: string
   readonly focusId: number
   readonly kind: DialogKind
   readonly message: string
