@@ -275,20 +275,20 @@ test('partitions the heading, error code and hint and renders an optional action
   Create.create(47)
   const loadContent = DialogStates.wrapAsyncCommand(LoadContent2.loadContent2)
   await loadContent(47, {
-    title: 'Error: Docker executable not found',
+    actionCommand: 'devcontainer.installDocker',
+    actionLabel: 'Install Docker',
     errorCode: 'ENOENT',
     message: 'Install Docker or check its configured path.',
-    actionLabel: 'Install Docker',
-    actionCommand: 'devcontainer.installDocker',
+    title: 'Error: Docker executable not found',
     type: 'error',
   })
   const state = DialogStates.get(47).newState
   const dom = GetDialogVirtualDom.getDialogVirtualDom(state)
-  expect(dom).toContainEqual(expect.objectContaining({ className: 'DialogContentRight', childCount: 3 }))
-  expect(dom).toContainEqual(expect.objectContaining({ className: 'DialogErrorCode', childCount: 2 }))
+  expect(dom).toContainEqual(expect.objectContaining({ childCount: 3, className: 'DialogContentRight' }))
+  expect(dom).toContainEqual(expect.objectContaining({ childCount: 2, className: 'DialogErrorCode' }))
   expect(dom).toContainEqual(expect.objectContaining({ text: 'ENOENT' }))
   expect(dom).toContainEqual(expect.objectContaining({ name: 'Action', onClick: 2 }))
-  expect(dom).toContainEqual(expect.objectContaining({ className: 'DialogButtonsRow', childCount: 2 }))
+  expect(dom).toContainEqual(expect.objectContaining({ childCount: 2, className: 'DialogButtonsRow' }))
   expect(dom.findIndex((node) => node.text === state.title)).toBeLessThan(dom.findIndex((node) => node.text === 'ENOENT'))
   expect(dom.findIndex((node) => node.text === 'ENOENT')).toBeLessThan(dom.findIndex((node) => node.text === state.message))
   for (const options of [{ actionLabel: '' }, { actionCommand: '' }]) {

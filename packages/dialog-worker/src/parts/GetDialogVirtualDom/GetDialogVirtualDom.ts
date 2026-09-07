@@ -75,10 +75,10 @@ export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode
     text(title),
     ...(errorCode
       ? [
-          { type: VirtualDomElements.Div, className: ClassNames.DialogErrorCode, childCount: 2 },
-          { type: VirtualDomElements.Div, className: ClassNames.DialogErrorCodeLabel, childCount: 1 },
+          { childCount: 2, className: ClassNames.DialogErrorCode, type: VirtualDomElements.Div },
+          { childCount: 1, className: ClassNames.DialogErrorCodeLabel, type: VirtualDomElements.Div },
           text('Error code'),
-          { type: VirtualDomElements.Div, childCount: 1 },
+          { childCount: 1, type: VirtualDomElements.Div },
           text(errorCode),
         ]
       : []),
@@ -104,11 +104,11 @@ export const getDialogVirtualDom = (state: DialogState): readonly VirtualDomNode
     ...(hasAction
       ? [
           {
-            type: VirtualDomElements.Button,
-            className: MergeClassNames.mergeClassNames(ClassNames.Button, ClassNames.ButtonPrimary),
             childCount: 1,
+            className: MergeClassNames.mergeClassNames(ClassNames.Button, ClassNames.ButtonPrimary),
             name: InputName.Action,
             onClick: DomEventListenerFunctions.HandleClickButton,
+            type: VirtualDomElements.Button,
           },
           text(actionLabel),
         ]
