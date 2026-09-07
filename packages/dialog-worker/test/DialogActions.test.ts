@@ -105,3 +105,36 @@ test('close button cancels basic auth after closing the dialog', async () => {
     ['ElectronBrowserView.cancelLogin', '12:1'],
   ])
 })
+
+test('closes the dialog before invoking the explicit secondary action', async () => {
+  using rpc = RendererWorker.registerMockRpc({
+    'Viewlet.closeWidget'(): void {},
+    'ExtensionHost.executeCommand'(): void {},
+  })
+  const actionState = { ...state, actionLabel: 'Install Docker', actionCommand: 'devcontainer.installDocker' }
+  await HandleClickButton.handleClickButton(actionState, 'Action')
+  expect(rpc.invocations).toEqual([
+    ['Viewlet.closeWidget', 'Dialog'],
+    ['ExtensionHost.executeCommand', 'devcontainer.installDocker'],
+  ])
+})
+
+test.each([{}, { actionLabel: 'Install Docker' }, { actionCommand: 'devcontainer.installDocker' }])(
+  'incomplete actions only dismiss the dialog',
+  async (options) => {
+    using rpc = RendererWorker.registerMockRpc({ 'Viewlet.closeWidget'(): void {} })
+    await HandleClickButton.handleClickButton({ ...state, ...options }, 'Action')
+    expect(rpc.invocations).toEqual([['Viewlet.closeWidget', 'Dialog']])
+  },
+)
+
+test('confirm and close never run the installation action', async () => {
+  using rpc = RendererWorker.registerMockRpc({ 'Viewlet.closeWidget'(): void {} })
+  const actionState = { ...state, actionLabel: 'Install Docker', actionCommand: 'devcontainer.installDocker' }
+  await HandleClickButton.handleClickButton(actionState, 'Confirm')
+  await HandleClickClose.handleClickClose(actionState)
+  expect(rpc.invocations).toEqual([
+    ['Viewlet.closeWidget', 'Dialog'],
+    ['Viewlet.closeWidget', 'Dialog'],
+  ])
+})

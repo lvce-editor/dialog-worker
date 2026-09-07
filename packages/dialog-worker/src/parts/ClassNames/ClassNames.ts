@@ -23,3 +23,6 @@ export const MaskIconInfo = 'MaskIconInfo'
 export const MaskIconWarning = 'MaskIconWarning'
 export const InputBox = 'InputBox'
 export const Viewlet = 'Viewlet'
+
+export const DialogErrorCode = 'DialogErrorCode'
+export const DialogErrorCodeLabel = 'DialogErrorCodeLabel'
