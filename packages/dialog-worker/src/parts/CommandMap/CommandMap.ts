@@ -36,6 +36,7 @@ export const commandMap = {
   'BasicAuthPrompt.show': showBasicAuthPrompt,
   'ConfirmPrompt.prompt': ConfirmPrompt.prompt,
   'ConfirmPrompt.prompt2': ConfirmPrompt.prompt2,
+  'ConfirmPrompt.prompt3': ConfirmPrompt.prompt3,
   'ConfirmPrompt.showErrorMessage': ConfirmPrompt.showErrorMessage,
   'Dialog.create': Create.create,
   'Dialog.diff2': Diff2.diff2,

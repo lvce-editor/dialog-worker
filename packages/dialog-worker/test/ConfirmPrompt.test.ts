@@ -103,6 +103,51 @@ test('prompt2 - electron', async () => {
   ])
 })
 
+test('prompt3 - electron', async () => {
+  const calls: unknown[] = []
+  registerElectronPrompt(2, calls)
+  await expect(
+    ConfirmPrompt.prompt3('Save?', {
+      cancelMessage: 'Cancel',
+      confirmMessage: 'Save',
+      discardMessage: "Don't Save",
+      discardPrompt: 'Discard?',
+      platform: PlatformType.Electron,
+      title: 'Question',
+    }),
+  ).resolves.toBe('discard')
+  expect(calls).toEqual([
+    {
+      buttons: ['Save', 'Cancel', "Don't Save"],
+      defaultId: 0,
+      message: 'Save?',
+      productName: 'Lvce Editor - OSS',
+      title: 'Question',
+      type: 'question',
+      windowId: 12,
+    },
+  ])
+})
+
+test('prompt3 - web', async () => {
+  const calls: string[] = []
+  registerWebPrompt(false, calls)
+  await expect(
+    ConfirmPrompt.prompt3('Save?', {
+      discardPrompt: 'Discard?',
+      platform: PlatformType.Web,
+    }),
+  ).resolves.toBe('cancel')
+  expect(calls).toEqual(['Save?', 'Discard?'])
+})
+
+test('prompt3 - web defaults', async () => {
+  const calls: string[] = []
+  registerWebPrompt(true, calls)
+  await expect(ConfirmPrompt.prompt3('Save?')).resolves.toBe('save')
+  expect(calls).toEqual(['Save?'])
+})
+
 test('showErrorMessage - defaults to web behavior', async () => {
   const calls: string[] = []
   registerWebPrompt(true, calls)
