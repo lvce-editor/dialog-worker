@@ -222,7 +222,11 @@ test('queues renderer commands directly and retains focus context commands', asy
 
   const result = await Render2.render2(uid, Diff2.diff2(uid))
 
-  expect(queueCommands).toHaveBeenCalledWith(uid, [expect.arrayContaining(['Viewlet.setDom2']), ['Viewlet.focusSelector', '[name="Confirm"]']])
+  expect(queueCommands).toHaveBeenCalledWith(uid, [
+    expect.arrayContaining(['Viewlet.setDom2', uid]),
+    ['Viewlet.focusSelector', uid, '[name="Confirm"]'],
+    ['Viewlet.setUid', uid, uid],
+  ])
   expect(result).toEqual([
     ['Viewlet.setFocusContext', 7],
     ['Viewlet.commitPending', uid, 17],
