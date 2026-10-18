@@ -19,8 +19,8 @@ const getRenderer = (diffType: number): Renderer => {
   }
 }
 
-export const applyRender = (oldState: DialogState, newState: DialogState, diffResult: readonly number[]): readonly unknown[] => {
-  const commands: unknown[] = []
+export const applyRender = (oldState: DialogState, newState: DialogState, diffResult: readonly number[]): readonly (readonly unknown[])[] => {
+  const commands: (readonly unknown[])[] = []
   for (const item of diffResult) {
     const renderer = getRenderer(item)
     commands.push(renderer(oldState, newState))
